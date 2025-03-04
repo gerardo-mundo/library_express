@@ -14,8 +14,9 @@ export interface UserCredentials {
 }
 
 export enum UserRoles {
-  Admin = 'admin',
-  Auxiliary = 'auxiliary',
-  Student = 'student',
-  Professor = 'professor',
+  User = 'USER',
+  Admin = 'ADMIN',
+  Auxiliary = 'AUXILIARY',
+  Student = 'STUDENT',
+  Professor = 'PROFESSOR',
 }
