@@ -5,12 +5,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "dev": "tsnd --respawn --transpile-only src/index.ts"
+    "dev": "tsnd --respawn --transpile-only src/index.ts",
+    "db:migrate": "npx prisma migrate dev --name $npm_config_name"
   },
   "ts-node": {
-    "require": [
-      "tsconfig-paths/register"
-    ]
+    "require": ["tsconfig-paths/register"]
   },
   "author": "Gerardo Mundo",
   "license": "ISC",
