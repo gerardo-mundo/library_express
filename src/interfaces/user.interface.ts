@@ -13,4 +13,9 @@ export interface UserCredentials {
   pasword: string;
 }
 
-export type UserRoles = 'admin' | 'auxiliary' | 'student' | 'professor';
+export enum UserRoles {
+  Admin = 'admin',
+  Auxiliary = 'auxiliary',
+  Student = 'student',
+  Professor = 'professor',
+}
