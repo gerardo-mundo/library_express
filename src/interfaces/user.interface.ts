@@ -3,6 +3,7 @@ export interface User {
   name: string;
   lastName: string;
   email: string;
+  password: string;
   role: UserRoles;
   created_at: Date | null;
   last_session: Date | null;
@@ -13,4 +14,10 @@ export interface UserCredentials {
   pasword: string;
 }
 
-export type UserRoles = 'admin' | 'auxiliary' | 'student' | 'professor';
+export enum UserRoles {
+  User = 'USER',
+  Admin = 'ADMIN',
+  Auxiliary = 'AUXILIARY',
+  Student = 'STUDENT',
+  Professor = 'PROFESSOR',
+}

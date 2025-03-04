@@ -13,5 +13,5 @@ export interface Publication {
 export enum PublicationTypes {
   article = 1,
   magazine = 2,
-  newsletter = 3,
+  newpaper = 3,
 }
