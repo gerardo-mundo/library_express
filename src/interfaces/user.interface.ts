@@ -3,6 +3,7 @@ export interface User {
   name: string;
   lastName: string;
   email: string;
+  password: string;
   role: UserRoles;
   created_at: Date | null;
   last_session: Date | null;
