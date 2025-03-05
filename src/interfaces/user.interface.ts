@@ -1,12 +1,8 @@
-export interface User {
-  id?: number;
-  name: string;
-  lastName: string;
-  email: string;
-  password: string;
+import { User } from '@prisma/client';
+
+export interface IUser
+  extends Omit<User, 'id' | 'last_session' | 'created_at'> {
   role: UserRoles;
-  created_at: Date | null;
-  last_session: Date | null;
 }
 
 export interface UserCredentials {
@@ -14,10 +10,9 @@ export interface UserCredentials {
   pasword: string;
 }
 
-export enum UserRoles {
-  User = 'USER',
-  Admin = 'ADMIN',
-  Auxiliary = 'AUXILIARY',
-  Student = 'STUDENT',
-  Professor = 'PROFESSOR',
-}
+export type UserRoles =
+  | 'USER'
+  | 'ADMIN'
+  | 'AUXILIARY'
+  | 'STUDENT'
+  | 'PROFESSOR';
