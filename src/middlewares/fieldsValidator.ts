@@ -1,3 +1,4 @@
+import { ApiResponseHandler } from '@api/apiResponseHandler';
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 
@@ -7,12 +8,14 @@ export const fieldsValidator = (
   next: NextFunction
 ) => {
   const errors = validationResult(req);
+  const apiResponseHandler = new ApiResponseHandler();
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({
-      ok: false,
-      errors: errors.mapped(),
-    });
+    return apiResponseHandler.badRequestResponse(
+      res,
+      'Error al registrar el usuario',
+      errors.mapped()
+    );
   }
 
   next();
