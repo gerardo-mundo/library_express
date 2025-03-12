@@ -17,6 +17,6 @@ export const userValidationFields = [
     .isLength({ min: 8 })
     .isStrongPassword(),
   (req: Request, res: Response, next: NextFunction) => {
-    fieldsValidator;
+    fieldsValidator(req, res, next);
   },
 ];
