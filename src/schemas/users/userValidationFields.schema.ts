@@ -13,9 +13,10 @@ export const userValidationFields = [
     .not()
     .isEmpty(),
   check('email', 'El nombre del correo no es válido').isEmail(),
-  check('password', 'El password es incorrecto')
-    .isLength({ min: 8 })
-    .isStrongPassword(),
+  check(
+    'password',
+    'La contraseña debe tener 8 caracteres, una mayúscula, una minúscula, un número y un símbolo'
+  ).isStrongPassword(),
   (req: Request, res: Response, next: NextFunction) => {
     fieldsValidator(req, res, next);
   },
