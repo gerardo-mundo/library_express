@@ -1,9 +1,13 @@
 import { User } from '@prisma/client';
 
-export interface IUser
-  extends Omit<User, 'id' | 'last_session' | 'created_at'> {
+export interface IUser extends User {
   role: UserRoles;
 }
+
+export type InitialUserCreation = Omit<
+  IUser,
+  'id' | 'role' | 'last_session' | 'created_at'
+>;
 
 export interface UserCredentials {
   email: string;
@@ -22,4 +26,11 @@ export interface IUserRepository {
   Create(userData: Omit<IUser, 'id'>): Promise<IUser>;
   Update(id: string, userData: Omit<IUser, 'id'>): Promise<IUser>;
   Delete(id: string): Promise<void>;
+}
+
+export interface IUserService {
+  getUsers(): Promise<IUser[]>;
+  createUserAccount(
+    userData: InitialUserCreation
+  ): Promise<Omit<IUser, 'password' | 'last_session'>>;
 }
