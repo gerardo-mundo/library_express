@@ -11,7 +11,7 @@ export type InitialUserCreation = Omit<
 
 export interface UserCredentials {
   email: string;
-  pasword: string;
+  password: string;
 }
 
 export type UserRoles =
