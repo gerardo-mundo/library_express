@@ -5,3 +5,7 @@ export interface IApiResponse<T> {
   error?: string;
   details?: any;
 }
+
+export type Result<T> =
+  | { success: true; data: T }
+  | { success: false; error: string };
