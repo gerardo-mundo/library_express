@@ -11,5 +11,7 @@ const userController = new UserController(userService);
 router.post('/register', userValidationFields, (req: Request, res: Response) =>
   userController.createUserAccount(req, res)
 );
-
+router.post('/login', (req: Request, res: Response) =>
+  userController.loginUser(req, res)
+);
 export default router;
