@@ -5,6 +5,7 @@ import {
   IUser,
   IUserRepository,
 } from '@interfaces/user.interface';
+import { handlePrismaError } from 'utils/handlePrismaKnownRequestError';
 
 const prisma = new PrismaClient();
 const errorMessage = process.env['EMAIL_TAKEN_ERROR_MESSAGE'];
@@ -16,6 +17,21 @@ export class UserRepository implements IUserRepository {
 
   public async FindById(id: string): Promise<IUser | null> {
     return prisma.user.findUnique({ where: { id } });
+  }
+
+  public async FindByEmail(email: string): Promise<IUser | null> {
+    return prisma.user.findUnique({ where: { email } });
+  }
+
+  public async UpdateLastSession(id: string): Promise<IUser> {
+    try {
+      const last_session = new Date().toISOString();
+
+      return prisma.user.update({ where: { id }, data: { last_session } });
+    } catch (error) {
+      const { message, statusCode } = handlePrismaError(error);
+      throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
+    }
   }
 
   public async Create(userData: InitialUserCreation): Promise<IUser> {
