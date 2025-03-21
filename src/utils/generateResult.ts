@@ -1,13 +1,13 @@
 import { Result } from '@interfaces/api.interface';
 
-export const generateResult = (
-  success: boolean,
-  error?: string,
-  data?: any
-): Result<any> => {
-  if (success) {
-    return { success, data };
+export const generateResult = <T>(
+  ok: boolean,
+  error: string | null,
+  data?: T
+): Result<T> => {
+  if (ok) {
+    return { ok, data: data! };
   } else {
-    return { success: false, error: error ?? '' };
+    return { ok: false, error: error ?? 'Unknown error' };
   }
 };
