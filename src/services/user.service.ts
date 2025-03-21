@@ -1,15 +1,19 @@
-import { hash, genSalt } from 'bcrypt';
+import { hash, genSalt, compare } from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import {
   InitialUserCreation,
   IUser,
   IUserService,
+  UserCredentials,
 } from '@interfaces/user.interface';
 import { UserRepository } from '@repositories/user.repository';
+import { Result } from '@interfaces/api.interface';
+import { generateResult } from 'utils/generateResult';
 
 export class UserService implements IUserService {
   private userRepository;
-  //private JWT_SECRET = process.env['JWT_SECRET'];
+  private JWT_SECRET = process.env.JWT_SECRET;
 
   constructor() {
     this.userRepository = new UserRepository();
@@ -48,6 +52,39 @@ export class UserService implements IUserService {
           `Se produjo un error desconocido al intentar crear el usuario: ${error}`
         );
       }
+    }
+  }
+
+  public async login(
+    userCredentials: UserCredentials
+  ): Promise<Result<string>> {
+    if (!userCredentials.email && !userCredentials.password) {
+      throw new Error('Las credenciales son obligatorias');
+    }
+
+    try {
+      const user = await this.userRepository.FindByEmail(
+        userCredentials?.email
+      );
+
+      if (!user) return generateResult(false, 'El email no está registrado');
+
+      const isValidUserPassword = await compare(
+        userCredentials.password,
+        user.password!
+      );
+
+      if (!isValidUserPassword)
+        return generateResult(false, 'La constraseña no es correcta');
+
+      const { created_at, password, ...payload } = user;
+      const token = jwt.sign(payload, this.JWT_SECRET!, { expiresIn: '8h' });
+
+      await this.userRepository.UpdateLastSession(user.id);
+
+      return generateResult(true, null, token);
+    } catch (error) {
+      return generateResult(false, `Error inesperado: ${error}`);
     }
   }
 
