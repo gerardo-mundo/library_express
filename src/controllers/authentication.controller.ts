@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 
 import { ApiResponseHandler } from '@api/apiResponseHandler';
-import { InitialUserCreation } from '@interfaces/user.interface';
+import {
+  InitialUserCreation,
+  UserCredentials,
+} from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
 
 export class UserController {
@@ -28,6 +31,28 @@ export class UserController {
           `Error interno del servidor: ${error}`
         );
       }
+    }
+  }
+
+  public async loginUser(req: Request, res: Response) {
+    try {
+      const userCredentials: UserCredentials = req.body;
+      const result = await this.userService.login(userCredentials);
+
+      if (result.ok) {
+        this.apiResponse.successResponse(
+          res,
+          'Usuario logueado correctamente',
+          result.data
+        );
+      } else {
+        this.apiResponse.badRequestResponse(res, result.error);
+      }
+    } catch (error) {
+      this.apiResponse.internalServerErrorResponse(
+        res,
+        `Ocurrió un error inesperado: ${error}`
+      );
     }
   }
 }
