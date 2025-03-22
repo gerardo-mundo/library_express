@@ -17,7 +17,7 @@ export class ApiResponseHandler {
     data: T
   ) {
     const response: IApiResponse<T> = {
-      ok: true,
+      success: true,
       message,
       data,
     };
@@ -37,7 +37,7 @@ export class ApiResponseHandler {
     data?: any
   ) {
     const response: IApiResponse<null> = {
-      ok: false,
+      success: false,
       message,
       data,
     };
