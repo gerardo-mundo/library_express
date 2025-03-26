@@ -29,7 +29,10 @@ export class UserRepository implements IUserRepository {
     try {
       const last_session = new Date().toISOString();
 
-      return prisma.user.update({ where: { id }, data: { last_session } });
+      return await prisma.user.update({
+        where: { id },
+        data: { last_session },
+      });
     } catch (error) {
       logger.writeError(`${error}`);
       const { message, statusCode } = handlePrismaError(error);
