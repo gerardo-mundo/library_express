@@ -6,8 +6,10 @@ import {
   IUserRepository,
 } from '@interfaces/user.interface';
 import { handlePrismaError } from 'utils/handlePrismaKnownRequestError';
+import { WinstonLoggerAdapter } from 'logs/logger';
 
 const prisma = new PrismaClient();
+const logger = new WinstonLoggerAdapter('user.repository');
 const errorMessage = process.env['EMAIL_TAKEN_ERROR_MESSAGE'];
 
 export class UserRepository implements IUserRepository {
@@ -29,6 +31,7 @@ export class UserRepository implements IUserRepository {
 
       return prisma.user.update({ where: { id }, data: { last_session } });
     } catch (error) {
+      logger.writeError(`${error}`);
       const { message, statusCode } = handlePrismaError(error);
       throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
     }
