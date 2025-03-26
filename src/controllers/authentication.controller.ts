@@ -40,7 +40,7 @@ export class UserController {
       const result = await this.userService.login(userCredentials);
 
       if (result.success) {
-        this.apiResponse.successResponse(
+        this.apiResponse.successCreationResponse(
           res,
           'Usuario logueado correctamente',
           result.data
