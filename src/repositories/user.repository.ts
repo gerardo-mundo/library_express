@@ -41,15 +41,21 @@ export class UserRepository implements IUserRepository {
   }
 
   public async Create(userData: InitialUserCreation): Promise<IUser> {
-    const userExist = await prisma.user.findUnique({
-      where: { email: userData.email },
-    });
+    try {
+      const userExist = await prisma.user.findUnique({
+        where: { email: userData.email },
+      });
 
-    if (userExist) throw new Error(errorMessage);
+      if (userExist) throw new Error(errorMessage);
 
-    return prisma.user.create({
-      data: userData,
-    });
+      return await prisma.user.create({
+        data: userData,
+      });
+    } catch (error) {
+      logger.writeError(`${error}`);
+      const { message, statusCode } = handlePrismaError(error);
+      throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
+    }
   }
 
   public async Update(id: string, userData: Omit<IUser, 'id'>): Promise<IUser> {
