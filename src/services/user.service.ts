@@ -58,7 +58,7 @@ export class UserService implements IUserService {
   public async login(
     userCredentials: UserCredentials
   ): Promise<Result<string>> {
-    if (!userCredentials.email && !userCredentials.password) {
+    if (!userCredentials) {
       throw new Error('Las credenciales son obligatorias');
     }
 
