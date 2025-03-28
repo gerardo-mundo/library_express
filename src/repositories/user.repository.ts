@@ -7,8 +7,8 @@ import {
   UserRoles,
   UserWithoutPassword,
 } from '@interfaces/user.interface';
-import { handlePrismaError } from 'utils/handlePrismaKnownRequestError';
 import { WinstonLoggerAdapter } from 'logs/logger';
+import { handlePrismaError } from '@utils/handlePrismaKnownRequestError';
 
 const prisma = new PrismaClient();
 const logger = new WinstonLoggerAdapter('user.repository');

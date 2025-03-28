@@ -10,8 +10,8 @@ import {
 } from '@interfaces/user.interface';
 import { UserRepository } from '@repositories/user.repository';
 import { Result } from '@interfaces/api.interface';
-import { generateResult } from 'utils/generateResult';
-import { isValidRole } from 'utils/validations';
+import { generateResult } from '@utils/generateResult';
+import { isValidRole } from '@utils/validations';
 
 export class UserService implements IUserService {
   private userRepository;
