@@ -24,7 +24,7 @@ export type UserRoles =
 export interface IUserRepository {
   FindById(id: string): Promise<IUser | null>;
   Create(userData: Omit<IUser, 'id'>): Promise<IUser>;
-  Update(id: string, userData: Omit<IUser, 'id'>): Promise<IUser>;
+  UpdateRole(id: string, role: UserRoles): Promise<IUser>;
   Delete(id: string): Promise<void>;
 }
 
