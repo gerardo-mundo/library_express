@@ -10,5 +10,8 @@ const userController = new UserController(userService);
 router.post('/update-role', (req: Request, res: Response) =>
   userController.updateUserRole(req, res)
 );
+router.get('/get-all-users', (req: Request, res: Response) =>
+  userController.getAllUsers(req, res)
+);
 
 export default router;
