@@ -1,17 +1,17 @@
 import { Request, Response, Router } from 'express';
 
-import { UserController } from '@controllers/authentication.controller';
+import { AuthenticationController } from '@controllers/authentication.controller';
 import { userValidationFields } from '@schemas/users/userValidationFields.schema';
 import { UserService } from '@services/user.service';
 
 const router = Router();
 const userService = new UserService();
-const userController = new UserController(userService);
+const authenticationController = new AuthenticationController(userService);
 
 router.post('/register', userValidationFields, (req: Request, res: Response) =>
-  userController.createUserAccount(req, res)
+  authenticationController.createUserAccount(req, res)
 );
 router.post('/login', (req: Request, res: Response) =>
-  userController.loginUser(req, res)
+  authenticationController.loginUser(req, res)
 );
 export default router;

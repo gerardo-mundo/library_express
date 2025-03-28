@@ -6,10 +6,12 @@ import {
   IUser,
   IUserService,
   UserCredentials,
+  UserWithoutPassword,
 } from '@interfaces/user.interface';
 import { UserRepository } from '@repositories/user.repository';
 import { Result } from '@interfaces/api.interface';
-import { generateResult } from 'utils/generateResult';
+import { generateResult } from '@utils/generateResult';
+import { isValidRole } from '@utils/validations';
 
 export class UserService implements IUserService {
   private userRepository;
@@ -19,8 +21,16 @@ export class UserService implements IUserService {
     this.userRepository = new UserRepository();
   }
 
-  public async getUsers(): Promise<IUser[]> {
-    return this.userRepository.FindAll();
+  public async getUsers(): Promise<Result<UserWithoutPassword[]>> {
+    try {
+      const users = await this.userRepository.FindAll();
+
+      if (!users) return generateResult(false, 'No se encontraron usuarios');
+
+      return generateResult(true, null, users);
+    } catch (error) {
+      return generateResult(false, `Error inesperado: ${error}`);
+    }
   }
 
   public async createUserAccount(
@@ -85,6 +95,22 @@ export class UserService implements IUserService {
       return generateResult(true, null, token);
     } catch (error) {
       return generateResult(false, `Error inesperado: ${error}`);
+    }
+  }
+
+  public async updateUserRole(
+    userId: string,
+    role: string
+  ): Promise<Result<IUser>> {
+    try {
+      if (!isValidRole(role))
+        throw new Error(`el rol de usuario no es válido: ${role}`);
+
+      const updatedRole = await this.userRepository.UpdateRole(userId, role);
+
+      return generateResult(true, null, updatedRole);
+    } catch (error) {
+      return generateResult(false, `${error}`);
     }
   }
 

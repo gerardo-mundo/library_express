@@ -7,7 +7,7 @@ import {
 } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
 
-export class UserController {
+export class AuthenticationController {
   private apiResponse = new ApiResponseHandler();
 
   constructor(private userService: UserService) {}
