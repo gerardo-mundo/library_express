@@ -9,6 +9,31 @@ export class UserController {
 
   constructor(private userService: UserService) {}
 
+  public async getAllUsers(req: Request, res: Response) {
+    try {
+      const result = await this.userService.getUsers();
+
+      if (result.success) {
+        this.apiResponseHandler.successResponse(
+          res,
+          'usuarios obtenidos',
+          result.data
+        );
+      } else {
+        this.apiResponseHandler.badRequestResponse(
+          res,
+          'error en la consulta',
+          null
+        );
+      }
+    } catch (error) {
+      this.apiResponseHandler.internalServerErrorResponse(
+        res,
+        'Error interno del servidor'
+      );
+    }
+  }
+
   public async updateUserRole(req: Request, res: Response) {
     try {
       const userData: Pick<IUser, 'id' | 'role'> = req.body;
