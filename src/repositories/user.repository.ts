@@ -4,6 +4,7 @@ import {
   InitialUserCreation,
   IUser,
   IUserRepository,
+  UserRoles,
 } from '@interfaces/user.interface';
 import { handlePrismaError } from 'utils/handlePrismaKnownRequestError';
 import { WinstonLoggerAdapter } from 'logs/logger';
@@ -58,8 +59,17 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  public async Update(id: string, userData: Omit<IUser, 'id'>): Promise<IUser> {
-    return prisma.user.update({ where: { id }, data: userData });
+  public async UpdateRole(userId: string, role: UserRoles): Promise<IUser> {
+    try {
+      return await prisma.user.update({
+        where: { id: userId },
+        data: { role },
+      });
+    } catch (error) {
+      logger.writeError(`${error}`);
+      const { message, statusCode } = handlePrismaError(error);
+      throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
+    }
   }
 
   public async Delete(id: string): Promise<void> {
