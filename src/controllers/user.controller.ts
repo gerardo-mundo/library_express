@@ -1,7 +1,8 @@
+import { Request, Response } from 'express';
+
 import { ApiResponseHandler } from '@api/apiResponseHandler';
 import { IUser } from '@interfaces/user.interface';
 import { UserService } from '@services/user.service';
-import { Request, Response } from 'express';
 
 export class UserController {
   private apiResponseHandler = new ApiResponseHandler();
