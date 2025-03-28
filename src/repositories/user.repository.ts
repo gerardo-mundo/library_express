@@ -5,6 +5,7 @@ import {
   IUser,
   IUserRepository,
   UserRoles,
+  UserWithoutPassword,
 } from '@interfaces/user.interface';
 import { handlePrismaError } from 'utils/handlePrismaKnownRequestError';
 import { WinstonLoggerAdapter } from 'logs/logger';
@@ -14,8 +15,14 @@ const logger = new WinstonLoggerAdapter('user.repository');
 const errorMessage = process.env['EMAIL_TAKEN_ERROR_MESSAGE'];
 
 export class UserRepository implements IUserRepository {
-  public async FindAll(): Promise<IUser[]> {
-    return prisma.user.findMany();
+  public async FindAll(): Promise<UserWithoutPassword[]> {
+    try {
+      return prisma.user.findMany({ omit: { password: true } });
+    } catch (error) {
+      logger.writeError(`${error}`);
+      const { message, statusCode } = handlePrismaError(error);
+      throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
+    }
   }
 
   public async FindById(id: string): Promise<IUser | null> {
