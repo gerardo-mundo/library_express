@@ -6,6 +6,7 @@ import {
   IUser,
   IUserService,
   UserCredentials,
+  UserWithoutPassword,
 } from '@interfaces/user.interface';
 import { UserRepository } from '@repositories/user.repository';
 import { Result } from '@interfaces/api.interface';
@@ -20,8 +21,16 @@ export class UserService implements IUserService {
     this.userRepository = new UserRepository();
   }
 
-  public async getUsers(): Promise<IUser[]> {
-    return this.userRepository.FindAll();
+  public async getUsers(): Promise<Result<UserWithoutPassword[]>> {
+    try {
+      const users = await this.userRepository.FindAll();
+
+      if (!users) return generateResult(false, 'No se encontraron usuarios');
+
+      return generateResult(true, null, users);
+    } catch (error) {
+      return generateResult(false, `Error inesperado: ${error}`);
+    }
   }
 
   public async createUserAccount(
