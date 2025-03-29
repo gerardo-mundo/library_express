@@ -50,8 +50,6 @@ export class UserController {
           result.data
         );
       } else {
-        console.log(result.error);
-
         this.apiResponseHandler.badRequestResponse(
           res,
           `Uno o más datos no son correctos. ${result.error}`
