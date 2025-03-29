@@ -7,10 +7,7 @@ import {
   UserRoles,
   UserWithoutPassword,
 } from '@interfaces/user.interface';
-import {
-  errorHandler,
-  handlePrismaError,
-} from '@utils/handlePrismaKnownRequestError';
+import { errorHandler } from '@utils/handlePrismaKnownRequestError';
 
 const prisma = new PrismaClient();
 const errorMessage = process.env['EMAIL_TAKEN_ERROR_MESSAGE'];
@@ -25,11 +22,19 @@ export class UserRepository implements IUserRepository {
   }
 
   public async FindById(id: string): Promise<IUser | null> {
-    return prisma.user.findUnique({ where: { id } });
+    try {
+      return await prisma.user.findUnique({ where: { id } });
+    } catch (error) {
+      return errorHandler(error, 'user.repository');
+    }
   }
 
   public async FindByEmail(email: string): Promise<IUser | null> {
-    return prisma.user.findUnique({ where: { email } });
+    try {
+      return await prisma.user.findUnique({ where: { email } });
+    } catch (error) {
+      return errorHandler(error, 'user.repository');
+    }
   }
 
   public async UpdateLastSession(id: string): Promise<IUser> {
