@@ -15,22 +15,22 @@ export class AuthenticationController {
   public async createUserAccount(req: Request, res: Response) {
     try {
       const userData: InitialUserCreation = req.body;
-      const newUser = await this.userService.createUserAccount(userData);
+      const result = await this.userService.createUserAccount(userData);
 
-      this.apiResponse.successResponse(
-        res,
-        'Usuario creado con éxito',
-        newUser
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        this.apiResponse.badRequestResponse(res, `${error.message}`);
-      } else {
-        this.apiResponse.internalServerErrorResponse(
+      if (result.success) {
+        this.apiResponse.successResponse(
           res,
-          `Error interno del servidor: ${error}`
+          'Usuario creado con éxito',
+          result
         );
+      } else {
+        this.apiResponse.badRequestResponse(res, 'Error al crear el usuario');
       }
+    } catch (error) {
+      this.apiResponse.internalServerErrorResponse(
+        res,
+        'error interno del servidor'
+      );
     }
   }
 
@@ -46,7 +46,7 @@ export class AuthenticationController {
           result.data
         );
       } else {
-        this.apiResponse.badRequestResponse(res, result.error);
+        this.apiResponse.unauthorizedResponse(res, result.error);
       }
     } catch (error) {
       this.apiResponse.internalServerErrorResponse(
