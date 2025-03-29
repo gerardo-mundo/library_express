@@ -35,7 +35,7 @@ export class UserService implements IUserService {
 
   public async createUserAccount(
     userData: InitialUserCreation
-  ): Promise<Omit<IUser, 'password' | 'last_session'>> {
+  ): Promise<Result<UserWithoutPassword>> {
     if (!this.validateUserData(userData))
       throw new Error('Todos los campos obligatorios');
 
@@ -50,18 +50,11 @@ export class UserService implements IUserService {
         last_name: userData.last_name,
       };
 
-      const { password, last_session, ...userWithoutPassword } =
-        await this.userRepository.Create(data);
+      const newUser = await this.userRepository.Create(data);
 
-      return userWithoutPassword;
+      return generateResult(true, null, newUser);
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error al intentar crear el usuario: ${error.message}`);
-      } else {
-        throw new Error(
-          `Se produjo un error desconocido al intentar crear el usuario: ${error}`
-        );
-      }
+      return generateResult(false, `Error inesperado: ${error}`);
     }
   }
 
