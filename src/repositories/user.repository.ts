@@ -50,7 +50,9 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  public async Create(userData: InitialUserCreation): Promise<IUser> {
+  public async Create(
+    userData: InitialUserCreation
+  ): Promise<UserWithoutPassword> {
     try {
       const userExist = await prisma.user.findUnique({
         where: { email: userData.email },
@@ -60,6 +62,7 @@ export class UserRepository implements IUserRepository {
 
       return await prisma.user.create({
         data: userData,
+        omit: { password: true },
       });
     } catch (error) {
       return errorHandler(error, 'user.repository');
