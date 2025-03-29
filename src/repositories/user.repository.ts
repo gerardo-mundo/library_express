@@ -73,7 +73,7 @@ export class UserRepository implements IUserRepository {
         data: { role },
       });
     } catch (error) {
-      return errorHandler(error, 'user.repository || UpdteRole');
+      return errorHandler(error, 'user.repository');
     }
   }
 
