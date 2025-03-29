@@ -7,11 +7,12 @@ import {
   UserRoles,
   UserWithoutPassword,
 } from '@interfaces/user.interface';
-import { WinstonLoggerAdapter } from 'logs/logger';
-import { handlePrismaError } from '@utils/handlePrismaKnownRequestError';
+import {
+  errorHandler,
+  handlePrismaError,
+} from '@utils/handlePrismaKnownRequestError';
 
 const prisma = new PrismaClient();
-const logger = new WinstonLoggerAdapter('user.repository');
 const errorMessage = process.env['EMAIL_TAKEN_ERROR_MESSAGE'];
 
 export class UserRepository implements IUserRepository {
@@ -19,9 +20,7 @@ export class UserRepository implements IUserRepository {
     try {
       return prisma.user.findMany({ omit: { password: true } });
     } catch (error) {
-      logger.writeError(`${error}`);
-      const { message, statusCode } = handlePrismaError(error);
-      throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
+      return errorHandler(error, 'user.repository');
     }
   }
 
@@ -42,9 +41,7 @@ export class UserRepository implements IUserRepository {
         data: { last_session },
       });
     } catch (error) {
-      logger.writeError(`${error}`);
-      const { message, statusCode } = handlePrismaError(error);
-      throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
+      return errorHandler(error, 'user.repository');
     }
   }
 
@@ -60,9 +57,7 @@ export class UserRepository implements IUserRepository {
         data: userData,
       });
     } catch (error) {
-      logger.writeError(`${error}`);
-      const { message, statusCode } = handlePrismaError(error);
-      throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
+      return errorHandler(error, 'user.repository');
     }
   }
 
@@ -73,9 +68,7 @@ export class UserRepository implements IUserRepository {
         data: { role },
       });
     } catch (error) {
-      logger.writeError(`${error}`);
-      const { message, statusCode } = handlePrismaError(error);
-      throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
+      return errorHandler(error, 'user.repository || UpdteRole');
     }
   }
 

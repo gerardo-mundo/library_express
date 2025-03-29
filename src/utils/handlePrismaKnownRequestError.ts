@@ -1,4 +1,5 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { WinstonLoggerAdapter } from 'logs/logger';
 
 interface PrismaErrorResponse {
   message: string;
@@ -85,4 +86,12 @@ export const handlePrismaError = (error: unknown): PrismaErrorResponse => {
       statusCode: 500, // Internal Server Error
     };
   }
+};
+
+export const errorHandler = (error: unknown, file: string) => {
+  const logger = new WinstonLoggerAdapter(file);
+
+  logger.writeError(`${error}`);
+  const { message, statusCode } = handlePrismaError(error);
+  throw new Error(`(Código de estado: ${statusCode}) ||| ${message} `);
 };
