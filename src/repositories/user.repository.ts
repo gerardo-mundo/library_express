@@ -69,10 +69,14 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  public async UpdateRole(userId: string, role: UserRoles): Promise<IUser> {
+  public async UpdateRole(
+    userId: string,
+    role: UserRoles
+  ): Promise<UserWithoutPassword> {
     try {
       return await prisma.user.update({
         where: { id: userId },
+        omit: { password: true },
         data: { role },
       });
     } catch (error) {

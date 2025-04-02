@@ -94,7 +94,7 @@ export class UserService implements IUserService {
   public async updateUserRole(
     userId: string,
     role: string
-  ): Promise<Result<IUser>> {
+  ): Promise<Result<UserWithoutPassword>> {
     try {
       if (!isValidRole(role))
         throw new Error(`el rol de usuario no es válido: ${role}`);

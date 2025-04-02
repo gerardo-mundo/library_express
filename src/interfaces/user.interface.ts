@@ -28,7 +28,7 @@ export interface IUserRepository {
   FindAll(): Promise<UserWithoutPassword[]>;
   FindById(id: string): Promise<IUser | null>;
   Create(userData: Omit<IUser, 'id'>): Promise<UserWithoutPassword>;
-  UpdateRole(id: string, role: UserRoles): Promise<IUser>;
+  UpdateRole(id: string, role: UserRoles): Promise<UserWithoutPassword>;
   Delete(id: string): Promise<void>;
 }
 
@@ -38,5 +38,8 @@ export interface IUserService {
     userData: InitialUserCreation
   ): Promise<Result<UserWithoutPassword>>;
   login(userCredentials: UserCredentials): Promise<Result<string>>;
-  updateUserRole(userId: string, role: string): Promise<Result<IUser>>;
+  updateUserRole(
+    userId: string,
+    role: string
+  ): Promise<Result<UserWithoutPassword>>;
 }
