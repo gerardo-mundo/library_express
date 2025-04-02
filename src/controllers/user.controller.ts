@@ -46,7 +46,7 @@ export class UserController {
       if (result.success) {
         this.apiResponseHandler.successResponse(
           res,
-          `El rol de usuario ha sido actualizado a: ${userData.role}`,
+          'El rol de usuario ha sido actualizado',
           result.data
         );
       } else {
