@@ -25,3 +25,16 @@ model User {
   created_at   DateTime  @default(now())
   last_session DateTime?
 }
+
+model Book {
+  id           Int      @id @default(autoincrement())
+  title        String
+  author       String
+  author_two   String?
+  author_three String?
+  publisher    String
+  collection   Int
+  copies       Bytes
+  available    Boolean?
+  created_at   DateTime @default(now())
+}
