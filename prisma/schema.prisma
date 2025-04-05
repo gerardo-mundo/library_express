@@ -34,7 +34,7 @@ model Book {
   author_three String?
   publisher    String
   collection   Int
-  adquisition  Int
+  adquisition  Int      @unique
   copies       Int
   available    Boolean
   created_at   DateTime @default(now())
