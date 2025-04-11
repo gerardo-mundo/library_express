@@ -36,6 +36,9 @@
       "@interfaces/*": [
         "interfaces/*"
       ],
+      "@middlewares/*": [
+        "middlewares/*"
+      ],
       "@models/*": [
         "models/*"
       ],
