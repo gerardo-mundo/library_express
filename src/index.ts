@@ -4,6 +4,7 @@ import cors from 'cors';
 import 'dotenv/config';
 
 import authRouter from '@routes/authentication.route';
+import bookRouter from '@routes/book.route';
 import userRouter from '@routes/user.route';
 
 const app = express();
@@ -15,5 +16,6 @@ app.use(express.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
+app.use('/api/books', bookRouter);
 
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
