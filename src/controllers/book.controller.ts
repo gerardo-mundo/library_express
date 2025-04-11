@@ -1,0 +1,32 @@
+import { Request, Response } from 'express';
+
+import { ApiResponseHandler } from '@api/apiResponseHandler';
+import { BookService } from '@services/book.service';
+import { error } from 'console';
+import { cleanErrorMessage } from '@utils/stringsHandlers';
+
+export class BookController {
+  private apiResponseHandler = new ApiResponseHandler();
+
+  constructor(private bookService: BookService) {}
+
+  public async createNewBook(req: Request, res: Response) {
+    try {
+      const result = await this.bookService.createBook(req.body);
+
+      if (result.success) {
+        this.apiResponseHandler.successCreationResponse(
+          res,
+          'Libro creado exitosamente',
+          result.data
+        );
+      } else {
+        const message = cleanErrorMessage(result.error);
+
+        this.apiResponseHandler.badRequestResponse(res, message);
+      }
+    } catch (error) {
+      this.apiResponseHandler.internalServerErrorResponse(res, `error`);
+    }
+  }
+}

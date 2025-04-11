@@ -1,6 +1,7 @@
 import { PrismaClient } from 'prisma/prisma-client';
 
 import {
+  BookCreation,
   IBook,
   IBookRepository,
   UpdatableDataBook,
@@ -10,13 +11,13 @@ import { errorHandler } from '@utils/handlePrismaKnownRequestError';
 export class BooksRepository implements IBookRepository {
   private prisma = new PrismaClient();
 
-  public async Create(book: any): Promise<IBook> {
+  public async Create(book: BookCreation): Promise<IBook> {
     try {
       const bookExist = await this.prisma.book.findUnique({
         where: { adquisition: book.adquisition },
       });
 
-      if (bookExist) throw new Error('el libro ya se encuentra registrado');
+      if (bookExist) throw new Error('El libro ya se encuentra registrado');
 
       const newBook = await this.prisma.book.create({ data: book });
       return newBook;
