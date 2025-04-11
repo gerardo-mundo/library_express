@@ -33,7 +33,7 @@ model Book {
   author_two   String?
   author_three String?
   publisher    String
-  collection   Int
+  collection   String
   adquisition  Int      @unique
   copies       Int
   available    Boolean
