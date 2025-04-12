@@ -2,7 +2,6 @@ import { Result } from '@interfaces/api.interface';
 import {
   BookCreationDTO,
   IBook,
-  IBookRepository,
   IBookService,
 } from '@interfaces/book.interface';
 import { BooksRepository } from '@repositories/book.repository';
