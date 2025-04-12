@@ -6,7 +6,7 @@ export interface IBook extends Book {}
 
 export type UpdatableDataBook = Omit<IBook, 'id' | 'created_at'>;
 
-export type BookCreation = Omit<IBook, 'id' | 'created_at'>;
+export type BookCreationDTO = Omit<IBook, 'id' | 'created_at'>;
 
 export interface IBookRepository {
   Create(book: any): Promise<IBook>;
@@ -17,5 +17,5 @@ export interface IBookRepository {
 }
 
 export interface IBookService {
-  createBook(book: BookCreation): Promise<Result<IBook>>;
+  createBook(book: BookCreationDTO): Promise<Result<IBook>>;
 }

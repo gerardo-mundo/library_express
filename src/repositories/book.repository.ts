@@ -1,7 +1,7 @@
 import { PrismaClient } from 'prisma/prisma-client';
 
 import {
-  BookCreation,
+  BookCreationDTO,
   IBook,
   IBookRepository,
   UpdatableDataBook,
@@ -11,7 +11,7 @@ import { errorHandler } from '@utils/handlePrismaKnownRequestError';
 export class BooksRepository implements IBookRepository {
   private prisma = new PrismaClient();
 
-  public async Create(book: BookCreation): Promise<IBook> {
+  public async Create(book: BookCreationDTO): Promise<IBook> {
     try {
       const bookExist = await this.prisma.book.findUnique({
         where: { adquisition: book.adquisition },

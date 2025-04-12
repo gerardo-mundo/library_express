@@ -1,6 +1,6 @@
 import { Result } from '@interfaces/api.interface';
 import {
-  BookCreation,
+  BookCreationDTO,
   IBook,
   IBookRepository,
   IBookService,
@@ -15,7 +15,7 @@ export class BookService implements IBookService {
     this.bookRepository = new BooksRepository();
   }
 
-  public async createBook(book: BookCreation): Promise<Result<IBook>> {
+  public async createBook(book: BookCreationDTO): Promise<Result<IBook>> {
     try {
       if (!book) throw new Error('Los datos del libro son obligatorios');
 
