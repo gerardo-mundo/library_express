@@ -13,7 +13,7 @@ export const fieldsValidator = (
   if (!errors.isEmpty()) {
     return apiResponseHandler.badRequestResponse(
       res,
-      'Error al registrar el usuario',
+      'Error al crear el registro',
       errors.mapped()
     );
   }
