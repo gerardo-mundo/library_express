@@ -4,7 +4,6 @@ import {
   BookCreationDTO,
   IBook,
   IBookRepository,
-  UpdatableDataBook,
 } from '@interfaces/book.interface';
 import { errorHandler } from '@utils/handlePrismaKnownRequestError';
 
@@ -44,7 +43,7 @@ export class BooksRepository implements IBookRepository {
     }
   }
 
-  public async Update(book: UpdatableDataBook): Promise<IBook> {
+  public async Update(book: BookCreationDTO): Promise<IBook> {
     try {
       const updatedBook = await this.prisma.book.create({ data: book });
       return updatedBook;
