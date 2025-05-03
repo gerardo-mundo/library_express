@@ -14,4 +14,8 @@ router.post(
   (req: Request, res: Response) => bookController.createNewBook(req, res)
 );
 
+router.get('/all-books', (req: Request, res: Response) =>
+  bookController.getAllBooks(req, res)
+);
+
 export default router;
