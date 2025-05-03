@@ -29,4 +29,28 @@ export class BookController {
       this.apiResponseHandler.internalServerErrorResponse(res, `error`);
     }
   }
+
+  public async getAllBooks(req: Request, res: Response) {
+    try {
+      const result = await this.bookService.getAllBooks();
+
+      if (result.success) {
+        this.apiResponseHandler.successResponse(
+          res,
+          'Libros encontrados',
+          result.data
+        );
+      } else {
+        this.apiResponseHandler.badRequestResponse(
+          res,
+          'Error al cosultar las obras'
+        );
+      }
+    } catch (error) {
+      this.apiResponseHandler.internalServerErrorResponse(
+        res,
+        'error interno del servidor'
+      );
+    }
+  }
 }
