@@ -25,4 +25,13 @@ export class BookService implements IBookService {
       return generateResult(false, `${error}`);
     }
   }
+
+  public async getAllBooks(): Promise<Result<IBook[]>> {
+    try {
+      const books = await this.bookRepository.FindAll();
+      return generateResult(true, null, books);
+    } catch (error) {
+      return generateResult(false, `${error}`);
+    }
+  }
 }
