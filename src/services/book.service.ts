@@ -34,4 +34,37 @@ export class BookService implements IBookService {
       return generateResult(false, `${error}`);
     }
   }
+
+  public async updateBookFields(
+    book: Omit<IBook, 'created_at'>
+  ): Promise<Result<IBook>> {
+    try {
+      console.log('Book ID:', book.id);
+
+      if (book.id == null) return generateResult(false, 'El ID es obligatorio');
+
+      const data = this.cleanInvalidValues(book);
+
+      const updatedBook = await this.bookRepository.Update(book.id, data);
+
+      return generateResult(true, null, updatedBook);
+    } catch (error) {
+      return generateResult(false, `${error}`);
+    }
+  }
+
+  private cleanInvalidValues(obj: BookCreationDTO): Partial<BookCreationDTO> {
+    const newObj: Partial<BookCreationDTO> = {};
+
+    for (const [key, value] of Object.entries(obj) as [
+      keyof BookCreationDTO,
+      any
+    ][]) {
+      if (value != null) {
+        newObj[key] = value;
+      }
+    }
+
+    return newObj;
+  }
 }
