@@ -18,4 +18,8 @@ router.get('/all-books', (req: Request, res: Response) =>
   bookController.getAllBooks(req, res)
 );
 
+router.put('/update-book', (req: Request, res: Response) =>
+  bookController.updateBook(req, res)
+);
+
 export default router;
