@@ -43,9 +43,18 @@ export class BooksRepository implements IBookRepository {
     }
   }
 
-  public async Update(book: BookCreationDTO): Promise<IBook> {
+  public async Update(
+    bookId: number,
+    data: Partial<BookCreationDTO>
+  ): Promise<IBook> {
     try {
-      const updatedBook = await this.prisma.book.create({ data: book });
+      if (!data) throw new Error('Los datos del libro son obligatorios');
+
+      const updatedBook = await this.prisma.book.update({
+        where: { id: bookId },
+        data,
+      });
+
       return updatedBook;
     } catch (error) {
       return errorHandler(error, 'book.repository');
