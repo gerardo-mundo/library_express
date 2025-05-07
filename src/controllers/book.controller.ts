@@ -53,4 +53,25 @@ export class BookController {
       );
     }
   }
+
+  public async updateBook(req: Request, res: Response) {
+    try {
+      const result = await this.bookService.updateBookFields(req.body);
+
+      if (result.success) {
+        this.apiResponseHandler.successResponse(
+          res,
+          'Libro actualizado',
+          result.data
+        );
+      } else {
+        this.apiResponseHandler.badRequestResponse(res, result.error);
+      }
+    } catch (error) {
+      this.apiResponseHandler.internalServerErrorResponse(
+        res,
+        'error interno del servidor'
+      );
+    }
+  }
 }
