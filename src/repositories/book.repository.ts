@@ -63,9 +63,16 @@ export class BooksRepository implements IBookRepository {
 
   public async Delete(bookId: number): Promise<IBook> {
     try {
+      if (!bookId) throw new Error('El ID del libro es obligatorio');
+
+      const bookExist = await this.FindById(bookId);
+
+      if (!bookExist) throw new Error('El libro no existe');
+
       const deletedBook = await this.prisma.book.delete({
         where: { id: bookId },
       });
+
       return deletedBook;
     } catch (error) {
       return errorHandler(error, 'book.repository');
