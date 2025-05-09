@@ -17,4 +17,5 @@ export interface IBookRepository {
 export interface IBookService {
   createBook(book: BookCreationDTO): Promise<Result<IBook>>;
   updateBookFields(book: BookCreationDTO): Promise<Result<IBook>>;
+  deleteBookbyId(bookId: number): Promise<Result<IBook>>;
 }
