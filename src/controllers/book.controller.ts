@@ -74,4 +74,24 @@ export class BookController {
       );
     }
   }
+
+  public async deleteBook(req: Request, res: Response) {
+    try {
+      const result = await this.bookService.deleteBookbyId(req.body);
+
+      if (result.success) {
+        this.apiResponseHandler.successResponse(
+          res,
+          `El libro con ID: ${result.data.id} fue eliminado exitosamente`
+        );
+      } else {
+        this.apiResponseHandler.badRequestResponse(res, result.error);
+      }
+    } catch (error) {
+      this.apiResponseHandler.internalServerErrorResponse(
+        res,
+        'error interno del servidor'
+      );
+    }
+  }
 }
