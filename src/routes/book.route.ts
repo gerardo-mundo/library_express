@@ -22,4 +22,8 @@ router.put('/update-book', (req: Request, res: Response) =>
   bookController.updateBook(req, res)
 );
 
+router.delete('/delete-book', (req: Request, res: Response) =>
+  bookController.deleteBook(req, res)
+);
+
 export default router;
