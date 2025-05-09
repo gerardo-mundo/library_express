@@ -53,6 +53,19 @@ export class BookService implements IBookService {
     }
   }
 
+  public async deleteBookbyId(bookId: number): Promise<Result<IBook>> {
+    try {
+      if (!bookId)
+        return generateResult(false, 'El ID del libro es obligatorio');
+
+      const deletedBook = await this.bookRepository.Delete(bookId);
+
+      return generateResult(true, null, deletedBook);
+    } catch (error) {
+      return generateResult(false, 'error interno del servidor');
+    }
+  }
+
   private cleanInvalidValues(obj: BookCreationDTO): Partial<BookCreationDTO> {
     const newObj: Partial<BookCreationDTO> = {};
 
