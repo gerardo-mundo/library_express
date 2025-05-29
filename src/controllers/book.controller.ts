@@ -77,7 +77,8 @@ export class BookController {
 
   public async deleteBook(req: Request, res: Response) {
     try {
-      const result = await this.bookService.deleteBookbyId(req.body);
+      const { id } = req.body;
+      const result = await this.bookService.deleteBookbyId(id);
 
       if (result.success) {
         this.apiResponseHandler.successResponse(
