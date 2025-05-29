@@ -55,8 +55,8 @@ export class BookService implements IBookService {
 
   public async deleteBookbyId(bookId: number): Promise<Result<IBook>> {
     try {
-      if (!bookId)
-        return generateResult(false, 'El ID del libro es obligatorio');
+      if (!this.isOnlyNumber(bookId))
+        return generateResult(false, 'El ID del libro debe ser de tipo INT');
 
       const deletedBook = await this.bookRepository.Delete(bookId);
 
@@ -79,5 +79,9 @@ export class BookService implements IBookService {
     }
 
     return newObj;
+  }
+
+  private isOnlyNumber(value: number | string | undefined): boolean {
+    return typeof value === 'number' && !isNaN(value);
   }
 }
