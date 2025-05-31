@@ -39,8 +39,6 @@ export class BookService implements IBookService {
     book: Omit<IBook, 'created_at'>
   ): Promise<Result<IBook>> {
     try {
-      console.log('Book ID:', book.id);
-
       if (book.id == null) return generateResult(false, 'El ID es obligatorio');
 
       const data = this.cleanInvalidValues(book);
