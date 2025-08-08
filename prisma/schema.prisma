@@ -42,7 +42,7 @@ model Book {
 
 model Thesis {
   id             Int      @id @default(autoincrement())
-  title          String
+  title          String   @unique
   author         String
   author_two     String?
   author_three   String?
