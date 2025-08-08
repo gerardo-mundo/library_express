@@ -39,3 +39,15 @@ model Book {
   available    Boolean
   created_at   DateTime @default(now())
 }
+
+model Thesis {
+  id             Int      @id @default(autoincrement())
+  title          String
+  author         String
+  author_two     String?
+  author_three   String?
+  publisher      String
+  thesis_advisor String
+  copies         Int
+  created_at     DateTime @default(now())
+}
