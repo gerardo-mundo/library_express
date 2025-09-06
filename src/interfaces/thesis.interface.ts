@@ -18,4 +18,5 @@ export interface IThesisService {
   createThesis(Thesis: ThesisCreationDTO): Promise<Result<IThesis>>;
   updateThesisFields(Thesis: ThesisCreationDTO): Promise<Result<IThesis>>;
   deleteThesisbyId(ThesisId: number): Promise<Result<IThesis>>;
+  getAllThesiss(): Promise<Result<IThesis[]>>;
 }
