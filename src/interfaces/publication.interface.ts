@@ -1,17 +1,29 @@
-export interface Publication {
-  id?: number;
-  type: PublicationTypes;
-  title: string;
-  author: string;
-  author_two?: string;
-  author_three?: string;
-  copies: number;
-  ISBN: number;
-  ISSN?: number;
+import { Publication, PublicationTypes } from 'prisma/prisma-client';
+
+import { Result } from './api.interface';
+
+export interface IPublication extends Publication {}
+
+export type PublicationCreationDTO = Omit<IPublication, 'id' | 'created_at'>;
+
+export interface IPublicationRepository {
+  Create(publication: PublicationCreationDTO): Promise<IPublication>;
+  FindById(publicationId: number): Promise<IPublication | null>;
+  FindAll(): Promise<IPublication[]>;
+  Update(
+    publicationId: number,
+    publication: PublicationCreationDTO
+  ): Promise<IPublication>;
+  Delete(publicationId: number): Promise<IPublication>;
 }
 
-export enum PublicationTypes {
-  article = 1,
-  magazine = 2,
-  newpaper = 3,
+export interface IPublicationService {
+  getAllPublications(): Promise<Result<IPublication[]>>;
+  createPublication(
+    publication: PublicationCreationDTO
+  ): Promise<Result<IPublication>>;
+  updatePublicationFields(
+    publication: Omit<PublicationCreationDTO, 'created_at'>
+  ): Promise<Result<IPublication>>;
+  deletePublicationbyId(publicationId: number): Promise<Result<IPublication>>;
 }

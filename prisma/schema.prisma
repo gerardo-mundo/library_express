@@ -15,6 +15,12 @@ enum Roles {
   PROFESSOR
 }
 
+enum PublicationTypes {
+  ARTICLE
+  MAGAZINE
+  NEWSPAPER
+}
+
 model User {
   id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name         String    @db.VarChar(120)
@@ -50,4 +56,18 @@ model Thesis {
   thesis_advisor String
   copies         Int
   created_at     DateTime @default(now())
+}
+
+model Publication {
+  id           Int              @id @default(autoincrement())
+  type         PublicationTypes
+  title        String           @unique
+  author       String
+  author_two   String?
+  author_three String?
+  copies       Int
+  ISBN         String?
+  ISSN         String?
+  available    Boolean          @default(true)
+  created_at   DateTime         @default(now())
 }
