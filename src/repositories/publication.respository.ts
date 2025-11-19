@@ -1,6 +1,6 @@
 import {
   IPublication,
-  IPublicationCreationDTO,
+  PublicationCreationDTO,
 } from '@interfaces/publication.interface';
 import { errorHandler } from '@utils/handlePrismaKnownRequestError';
 import { PrismaClient } from 'prisma/prisma-client';
@@ -9,7 +9,7 @@ export class PublicationRepository implements PublicationRepository {
   private prisma = new PrismaClient();
 
   public async Create(
-    publication: IPublicationCreationDTO
+    publication: PublicationCreationDTO
   ): Promise<IPublication> {
     if (publication === null) throw new Error('Publication ivalid');
     try {
@@ -52,7 +52,7 @@ export class PublicationRepository implements PublicationRepository {
   }
   public async Update(
     publicationId: number,
-    publication: IPublicationCreationDTO
+    publication: Partial<PublicationCreationDTO>
   ): Promise<IPublication> {
     if (publication === null) throw new Error('Publication ivalid');
 
