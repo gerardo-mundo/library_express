@@ -22,28 +22,32 @@ enum PublicationTypes {
 }
 
 model User {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String    @db.VarChar(120)
-  last_name    String    @db.VarChar(120)
-  email        String    @unique
-  password     String
-  role         Roles     @default(USER)
-  created_at   DateTime  @default(now())
-  last_session DateTime?
+  id                String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String     @db.VarChar(120)
+  last_name         String     @db.VarChar(120)
+  email             String     @unique
+  password          String
+  role              Roles      @default(USER)
+  created_at        DateTime   @default(now())
+  last_session      DateTime?
+  loans_as_borrower BookLoan[] @relation("BorrowerRelation")
+  loans_as_approver BookLoan[] @relation("ApproverRelation")
 }
 
 model Book {
-  id           Int      @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   title        String
   author       String
   author_two   String?
   author_three String?
   publisher    String
   collection   String
-  adquisition  Int      @unique
+  adquisition  Int        @unique
   copies       Int
   available    Boolean
-  created_at   DateTime @default(now())
+  created_at   DateTime   @default(now())
+  loan_history LoanItem[]
+  bookLoans    BookLoan[]
 }
 
 model Thesis {
