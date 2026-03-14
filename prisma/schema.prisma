@@ -47,7 +47,6 @@ model Book {
   available    Boolean
   created_at   DateTime   @default(now())
   loan_history LoanItem[]
-  bookLoans    BookLoan[]
 }
 
 model Thesis {
@@ -83,12 +82,10 @@ model BookLoan {
   return_date DateTime?
   //FK's
   loan_items  LoanItem[]
-  book        Book?      @relation(fields: [bookId], references: [id])
-  bookId      Int?
   borrower    User       @relation("BorrowerRelation", fields: [borrower_id], references: [id])
-  borrower_id String
-  approver    User?      @relation("ApproverRelation", fields: [approver_id], references: [id])
-  approver_id String?
+  borrower_id String     @db.Uuid
+  approver    User       @relation("ApproverRelation", fields: [approver_id], references: [id])
+  approver_id String
 }
 
 model LoanItem {
