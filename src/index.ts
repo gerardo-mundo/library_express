@@ -8,6 +8,7 @@ import bookRouter from '@routes/book.route';
 import userRouter from '@routes/user.route';
 import thesisRouter from '@routes/thesis.route';
 import publicationRouter from '@routes/publication.route';
+import bookLoanRouter from '@routes/bookLoan.route';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -21,5 +22,6 @@ app.use('/api/users', userRouter);
 app.use('/api/books', bookRouter);
 app.use('/api/thesis', thesisRouter);
 app.use('/api/publications', publicationRouter);
+app.use('/api/books-loans', bookLoanRouter);
 
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
